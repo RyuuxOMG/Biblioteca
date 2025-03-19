@@ -9,27 +9,40 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class agregarLibro extends javax.swing.JDialog {
-    private Biblioteca biblioteca;
-    private PaginaP PaginaP;
+   // Se declara una variable para almacenar la biblioteca de la aplicación.
+private Biblioteca biblioteca;
 
-    /**
-     * Creates new form agregarLibro
-     */
-    public agregarLibro(Frame parent, boolean modal, Biblioteca biblioteca, PaginaP PaginaP) {
-        super(parent, modal);
-        this.biblioteca = biblioteca;
-        this.PaginaP = PaginaP;
-        
-        initComponents();
-                
-        setLocationRelativeTo(this);
-        try{
-            this.setIconImage(new ImageIcon(getClass().getResource("/autonoma/BibliotecaPOO/images/Biblioteca.png")).getImage());
-        }catch(Exception e){
-            
-        }
+// Se declara una variable para almacenar la referencia a la ventana principal (PaginaP).
+private PaginaP PaginaP;
 
+/**
+ * Constructor de la clase agregarLibro.
+ * @param parent Ventana padre que abre este formulario.
+ * @param modal Indica si la ventana será modal (bloquea la ventana principal hasta que se cierre).
+ * @param biblioteca Objeto que contiene la lista de libros.
+ * @param PaginaP Referencia a la ventana principal de la aplicación.
+ */
+public agregarLibro(Frame parent, boolean modal, Biblioteca biblioteca, PaginaP PaginaP) {
+    // Se llama al constructor de la clase padre (JDialog) con los parámetros parent y modal.
+    super(parent, modal);
+
+    // Se asignan los valores recibidos a las variables de la clase.
+    this.biblioteca = biblioteca;
+    this.PaginaP = PaginaP;
+
+    // Se inicializan los componentes gráficos de la ventana.
+    initComponents();
+
+    // Se centra la ventana con respecto a la ventana principal.
+    setLocationRelativeTo(this);
+
+    try {
+        // Se intenta establecer un ícono para la ventana con la imagen de la biblioteca.
+        this.setIconImage(new ImageIcon(getClass().getResource("/autonoma/BibliotecaPOO/images/Biblioteca.png")).getImage());
+    } catch (Exception e) {
+        // Si hay un error al cargar la imagen, el programa sigue sin mostrar error.
     }
+}
 
 
 
@@ -209,34 +222,50 @@ public class agregarLibro extends javax.swing.JDialog {
     private void btnAGREGARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAGREGARActionPerformed
     agregarLibro();
     }//GEN-LAST:event_btnAGREGARActionPerformed
-    private void agregarLibro(){
+    // Método para agregar un nuevo libro a la biblioteca y actualizar la tabla.
+private void agregarLibro() {
     try {
+        // Se obtiene el ID ingresado en el campo de texto y se convierte a número.
         Long id = Long.parseLong(txtID.getText());
+
+        // Se obtiene el título del libro ingresado en el campo de texto.
         String titulo = txtTitulo.getText();
 
+        // Se verifica que el título no esté vacío.
         if (titulo.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Ingrese el título del libro", "Error", JOptionPane.WARNING_MESSAGE);
-            return;
+            return; // Se detiene la ejecución si el título está vacío.
         }
 
-        // Crear libro y agregarlo a la tabla
+        // Se crea un nuevo objeto de tipo Libro con el ID y título ingresados.
         Libro nuevoLibro = new Libro(id, titulo);
+
+        // Se agrega el libro a la biblioteca.
         biblioteca.agregarLibro(nuevoLibro);
+
+        // Se actualiza la tabla de libros en la ventana principal.
         PaginaP.llenarTablaLibros();
 
+        // Se muestra un mensaje indicando que el libro se agregó correctamente.
         JOptionPane.showMessageDialog(this, "Libro agregado exitosamente");
-        this.dispose(); // Cierra el diálogo después de agregar
+
+        // Se cierra la ventana de agregar libro.
+        this.dispose();
     } catch (NumberFormatException e) {
+        // Si el usuario ingresó un ID no válido, se muestra un mensaje de error.
         JOptionPane.showMessageDialog(this, "Ingrese un ID válido", "Error", JOptionPane.ERROR_MESSAGE);
     }
 }
 
-    
-    
-    private void agregarLibroTabla(Libro libro) {
+// Método para agregar un libro directamente a la tabla sin actualizar toda la lista.
+private void agregarLibroTabla(Libro libro) {
+    // Se obtiene el modelo de la tabla de libros.
     DefaultTableModel modelo = (DefaultTableModel) PaginaP.getTablaLibros().getModel();
+
+    // Se agrega una nueva fila con el ID y título del libro.
     modelo.addRow(new Object[]{libro.getId(), libro.getTitulo()});
 }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAGREGAR;
     private javax.swing.JButton btnRegresar;

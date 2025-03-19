@@ -4,19 +4,25 @@ import javax.swing.ImageIcon;
 
 public class OrdenAlfabetico extends javax.swing.JDialog {
 
-    /**
-     * Creates new form OrdenAlfabetico
-     */
-    public OrdenAlfabetico(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
-        initComponents();
-                   this.setLocationRelativeTo(null);
-        try{
-            this.setIconImage(new ImageIcon(getClass().getResource("/autonoma/Biblioteca/images/Biblioteca.png")).getImage());
-        }catch(Exception e){
-            
-        }
+    // Constructor de la clase OrdenAlfabetico
+public OrdenAlfabetico(java.awt.Frame parent, boolean modal) {
+    // Llama al constructor de la clase padre (JDialog) y define si la ventana será modal.
+    super(parent, modal);
+
+    // Inicializa los componentes de la interfaz gráfica.
+    initComponents();
+
+    // Centra la ventana en la pantalla.
+    this.setLocationRelativeTo(null);
+
+    try {
+        // Intenta establecer un ícono para la ventana con una imagen específica.
+        this.setIconImage(new ImageIcon(getClass().getResource("/autonoma/Biblioteca/images/Biblioteca.png")).getImage());
+    } catch (Exception e) {
+        // Si hay un error al cargar la imagen, el programa sigue sin mostrar error.
     }
+}
+
 
     /**
      * This method is called from within the constructor to initialize the form.

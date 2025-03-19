@@ -12,32 +12,48 @@ import javax.swing.JScrollPane;
 
 
 
+// La clase PaginaP extiende de JFrame, lo que significa que representa una ventana en la aplicación.
 public class PaginaP extends javax.swing.JFrame {
-       private Biblioteca biblioteca;
-       private JPanel OrdenAlfabetico;
-   
-
     
+    // Se declara una variable para manejar la biblioteca de la aplicación.
+    private Biblioteca biblioteca;
+    
+    // Se declara un panel llamado OrdenAlfabetico (aunque en este fragmento no se usa).
+    private JPanel OrdenAlfabetico;
+
+    // Constructor de la clase
     public PaginaP() {
+        // Se crea una nueva instancia de Biblioteca.
         biblioteca = new Biblioteca();
-        initComponents();
-                
-                this.setLocationRelativeTo(null);
-        try{
-            this.setIconImage(new ImageIcon(getClass().getResource("/autonoma/BibliotecaPOO/images/Biblioteca.png")).getImage());
-        }catch(Exception e){
-            
-        }
-        llenarTablaLibros();
         
+        // Se inicializan los componentes de la interfaz gráfica.
+        initComponents();
+
+        // Hace que la ventana aparezca en el centro de la pantalla.
+        this.setLocationRelativeTo(null);
+
+        try {
+            // Intenta establecer un ícono para la ventana usando una imagen en la ruta especificada.
+            this.setIconImage(new ImageIcon(getClass().getResource("/autonoma/BibliotecaPOO/images/Biblioteca.png")).getImage());
+        } catch (Exception e) {
+            // Si ocurre un error al cargar la imagen, el programa sigue sin mostrar error.
+        }
+
+        // Llama al método que llena la tabla con los libros de la biblioteca.
+        llenarTablaLibros();
     }
 
-        public Biblioteca getBiblioteca(){
+    // Método para obtener la biblioteca de la aplicación.
+    public Biblioteca getBiblioteca() {
         return biblioteca;
-        }
-        public JTable getTablaLibros(){
-            return TablaLibros;
-        }
+    }
+
+    // Método para obtener la tabla de libros.
+    public JTable getTablaLibros() {
+        return TablaLibros;
+    }
+
+
     
    
     /**
@@ -459,26 +475,36 @@ public class PaginaP extends javax.swing.JFrame {
     private void OrdenarAlfabeticamenteMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_OrdenarAlfabeticamenteMouseExited
          this.mouseEntered(OrdenAlfabetico);
     }//GEN-LAST:event_OrdenarAlfabeticamenteMouseExited
+// Este método se ejecuta cuando el mouse entra en un JPanel.
+// Cambia el color de fondo del panel a un tono azul verdoso.
+private void mouseEntered(JPanel panel) {
+    panel.setBackground(new Color(79,149,157));
+}
 
-        private void mouseEntered(JPanel panel){
-        panel.setBackground(new Color(79,149,157));
-        
-    }
-    private void mouseExited(JPanel panel){
-        panel.setBackground(new Color(87,180,186));
-    }
-   
+// Este método se ejecuta cuando el mouse sale del JPanel.
+// Restaura el color de fondo del panel a otro tono de azul.
+private void mouseExited(JPanel panel) {
+    panel.setBackground(new Color(87,180,186));
+}
+
+// Este método llena la tabla de libros con los datos de la biblioteca.
 public void llenarTablaLibros() {
+    // Se obtiene el modelo de la tabla y se limpia para evitar datos duplicados.
     DefaultTableModel modelo = (DefaultTableModel) TablaLibros.getModel();
-    modelo.setRowCount(0); // Limpiar la tabla antes de llenarla
+    modelo.setRowCount(0);
 
-    for (Libro libro : biblioteca.getLibros()) { // ← Asegúrate de que esta función existe en Biblioteca
+    // Se recorre la lista de libros de la biblioteca y se agregan a la tabla.
+    for (Libro libro : biblioteca.getLibros()) {
         modelo.addRow(new Object[]{libro.getId(), libro.getTitulo()});
-}
+    }
 }
 
+// Este método agrega un solo libro a la tabla de libros.
 public void agregarLibroTabla(Libro libro) {
+    // Se obtiene el modelo de la tabla.
     DefaultTableModel modelo = (DefaultTableModel) TablaLibros.getModel();
+    
+    // Se agrega una nueva fila con la información del libro (ID y título).
     modelo.addRow(new Object[]{libro.getId(), libro.getTitulo()});
 }
 

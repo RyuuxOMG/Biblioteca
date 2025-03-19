@@ -9,21 +9,33 @@ import javax.swing.JOptionPane;
 
 
 public class eliminarLibro extends javax.swing.JDialog {
-    private Biblioteca bibliotecas;
-    private PaginaP Pagina;
-    
-    public eliminarLibro(java.awt.Frame parent, boolean modal, Biblioteca bibliotecas, PaginaP Pagina) {
-   super(parent, modal);
-        this.bibliotecas = bibliotecas;
-        this.Pagina = Pagina;
-        initComponents();
-        this.setLocationRelativeTo(null);
-        try {
-            this.setIconImage(new ImageIcon(getClass().getResource("/autonoma/Biblioteca/images/Biblioteca.png")).getImage());
-        } catch (Exception e) {
-            
-        }
+    // Variables privadas para almacenar la referencia a la biblioteca y la página principal.
+private Biblioteca bibliotecas;
+private PaginaP Pagina;
+
+// Constructor de la clase eliminarLibro
+public eliminarLibro(java.awt.Frame parent, boolean modal, Biblioteca bibliotecas, PaginaP Pagina) {
+    // Llama al constructor de la clase padre (JDialog) y define si la ventana será modal.
+    super(parent, modal);
+
+    // Asigna las referencias de la biblioteca y la página principal.
+    this.bibliotecas = bibliotecas;
+    this.Pagina = Pagina;
+
+    // Inicializa los componentes de la interfaz gráfica.
+    initComponents();
+
+    // Centra la ventana en la pantalla.
+    this.setLocationRelativeTo(null);
+
+    try {
+        // Intenta establecer un ícono para la ventana con una imagen específica.
+        this.setIconImage(new ImageIcon(getClass().getResource("/autonoma/Biblioteca/images/Biblioteca.png")).getImage());
+    } catch (Exception e) {
+        // Si hay un error al cargar la imagen, el programa sigue sin mostrar error.
     }
+}
+
     
     
     @SuppressWarnings("unchecked")
@@ -186,32 +198,48 @@ public class eliminarLibro extends javax.swing.JDialog {
     }//GEN-LAST:event_txtIDActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-    String input = txtID.getText();
-    if (input.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Ingrese un ID", "Error", JOptionPane.WARNING_MESSAGE);
-        return;
-    }
-    
-    Long value;
-    try {
-        value = Long.parseLong(input);
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(this, "ID no valido, intentelo nuevamente con numeros", "Error", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-    
-    Libro encontrado = bibliotecas.buscarLibro(value);
-    if (encontrado != null) {
-        if (bibliotecas.eliminarLibro(value)) {
-            JOptionPane.showMessageDialog(this, "Libro eliminado exitosamente.");
-            Pagina.llenarTablaLibros(); // Actualizar la tabla en la ventana principal
-            dispose();
-        } else {
-            JOptionPane.showMessageDialog(this, "Error al eliminar.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
+// Obtener el texto ingresado en el campo de ID
+String input = txtID.getText();
+
+// Verificar si el campo está vacío
+if (input.isEmpty()) {
+    JOptionPane.showMessageDialog(this, "Ingrese un ID", "Error", JOptionPane.WARNING_MESSAGE);
+    return; // Sale del método si no se ingresó nada
+}
+
+Long value;
+try {
+    // Intentar convertir el texto en un número entero largo (Long)
+    value = Long.parseLong(input);
+} catch (NumberFormatException e) {
+    // Si el usuario ingresa algo que no es un número, mostrar un mensaje de error
+    JOptionPane.showMessageDialog(this, "ID no valido, intentelo nuevamente con numeros", "Error", JOptionPane.ERROR_MESSAGE);
+    return; // Sale del método si la conversión falla
+}
+
+// Buscar el libro en la biblioteca con el ID ingresado
+Libro encontrado = bibliotecas.buscarLibro(value);
+
+if (encontrado != null) { // Si el libro existe
+    // Intentar eliminar el libro
+    if (bibliotecas.eliminarLibro(value)) {
+        // Si se eliminó correctamente, mostrar mensaje de éxito
+        JOptionPane.showMessageDialog(this, "Libro eliminado exitosamente.");
+
+        // Actualizar la tabla de libros en la ventana principal
+        Pagina.llenarTablaLibros();
+
+        // Cerrar la ventana de eliminación
+        dispose();
     } else {
-        JOptionPane.showMessageDialog(this, "Libro no encontrado.", "Error", JOptionPane.WARNING_MESSAGE);
+        // Si hubo un error al eliminar, mostrar mensaje de error
+        JOptionPane.showMessageDialog(this, "Error al eliminar.", "Error", JOptionPane.ERROR_MESSAGE);
     }
+} else {
+    // Si el libro no se encontró, mostrar mensaje de advertencia
+    JOptionPane.showMessageDialog(this, "Libro no encontrado.", "Error", JOptionPane.WARNING_MESSAGE);
+}
+
     }//GEN-LAST:event_btnEliminarActionPerformed
 
 

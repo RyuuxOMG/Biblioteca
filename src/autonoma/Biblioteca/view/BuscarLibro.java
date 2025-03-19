@@ -8,20 +8,37 @@ import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
 
 public class BuscarLibro extends javax.swing.JDialog {
-     private Biblioteca biblioteca;
-    private PaginaP PaginaP;
-   
-    public BuscarLibro(Biblioteca biblioteca, PaginaP PaginaP) {
-        this.biblioteca = biblioteca;
-        this.PaginaP = PaginaP;
-        initComponents();
-           this.setLocationRelativeTo(null);
-        try{
-            this.setIconImage(new ImageIcon(getClass().getResource("/autonoma/Biblioteca/images/Biblioteca.png")).getImage());
-        }catch(Exception e){
-            
-        }
+     
+// Se declara una variable para almacenar la biblioteca de la aplicación.
+private Biblioteca biblioteca;
+
+// Se declara una variable para almacenar la referencia a la ventana principal (PaginaP).
+private PaginaP PaginaP;
+
+/**
+ * Constructor de la clase BuscarLibro.
+ * @param biblioteca Objeto que contiene la lista de libros.
+ * @param PaginaP Referencia a la ventana principal de la aplicación.
+ */
+public BuscarLibro(Biblioteca biblioteca, PaginaP PaginaP) {
+    // Se asignan los valores recibidos a las variables de la clase.
+    this.biblioteca = biblioteca;
+    this.PaginaP = PaginaP;
+
+    // Se inicializan los componentes gráficos de la ventana.
+    initComponents();
+
+    // Se centra la ventana en la pantalla.
+    this.setLocationRelativeTo(null);
+
+    try {
+        // Se intenta establecer un ícono para la ventana con la imagen de la biblioteca.
+        this.setIconImage(new ImageIcon(getClass().getResource("/autonoma/Biblioteca/images/Biblioteca.png")).getImage());
+    } catch (Exception e) {
+        // Si hay un error al cargar la imagen, el programa sigue sin mostrar error.
     }
+}
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -31,6 +48,8 @@ public class BuscarLibro extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jPanel11 = new javax.swing.JPanel();
@@ -38,11 +57,14 @@ public class BuscarLibro extends javax.swing.JDialog {
         jPanel12 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         txtResultado = new java.awt.TextField();
-        btnBuscar = new javax.swing.JButton();
         btnRegresar = new javax.swing.JButton();
         searchButton = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         txtID1 = new java.awt.TextField();
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane1.setViewportView(jTextArea1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -108,15 +130,6 @@ public class BuscarLibro extends javax.swing.JDialog {
             }
         });
 
-        btnBuscar.setBackground(new java.awt.Color(214, 219, 223));
-        btnBuscar.setFont(new java.awt.Font("Dubai Medium", 0, 14)); // NOI18N
-        btnBuscar.setText("Buscar");
-        btnBuscar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnBuscarMouseClicked(evt);
-            }
-        });
-
         btnRegresar.setBackground(new java.awt.Color(214, 219, 223));
         btnRegresar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/autonoma/Biblioteca/images/RegresarF.png"))); // NOI18N
         btnRegresar.addActionListener(new java.awt.event.ActionListener() {
@@ -126,6 +139,11 @@ public class BuscarLibro extends javax.swing.JDialog {
         });
 
         searchButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/autonoma/Biblioteca/images/Buscar.png"))); // NOI18N
+        searchButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                searchButtonMousePressed(evt);
+            }
+        });
 
         jLabel8.setFont(new java.awt.Font("Dubai Medium", 1, 18)); // NOI18N
         jLabel8.setText("ID DEL LIBRO:");
@@ -146,30 +164,25 @@ public class BuscarLibro extends javax.swing.JDialog {
                 .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(211, 211, 211))
             .addGroup(jPanel12Layout.createSequentialGroup()
-                .addGap(262, 262, 262)
-                .addComponent(btnBuscar)
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel12Layout.createSequentialGroup()
+                        .addGap(117, 117, 117)
+                        .addComponent(txtID1, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel12Layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(btnRegresar))
+                        .addGroup(jPanel12Layout.createSequentialGroup()
+                            .addGap(117, 117, 117)
+                            .addComponent(txtResultado, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(50, 50, 50))
-            .addGroup(jPanel12Layout.createSequentialGroup()
-                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel12Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(btnRegresar))
-                    .addGroup(jPanel12Layout.createSequentialGroup()
-                        .addGap(117, 117, 117)
-                        .addComponent(txtResultado, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel12Layout.createSequentialGroup()
                     .addGap(247, 247, 247)
                     .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGap(241, 241, 241)))
-            .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel12Layout.createSequentialGroup()
-                    .addGap(118, 118, 118)
-                    .addComponent(txtID1, javax.swing.GroupLayout.PREFERRED_SIZE, 366, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(124, Short.MAX_VALUE)))
         );
         jPanel12Layout.setVerticalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -178,26 +191,21 @@ public class BuscarLibro extends javax.swing.JDialog {
                 .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel12Layout.createSequentialGroup()
-                        .addGap(85, 85, 85)
-                        .addComponent(btnBuscar))
+                        .addGap(52, 52, 52)
+                        .addComponent(txtID1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(77, 77, 77)
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtResultado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel12Layout.createSequentialGroup()
                         .addGap(33, 33, 33)
                         .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(38, 38, 38)
-                .addComponent(jLabel7)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtResultado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(38, Short.MAX_VALUE))
             .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel12Layout.createSequentialGroup()
                     .addGap(39, 39, 39)
                     .addComponent(jLabel8)
                     .addContainerGap(223, Short.MAX_VALUE)))
-            .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel12Layout.createSequentialGroup()
-                    .addGap(81, 81, 81)
-                    .addComponent(txtID1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(188, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -226,26 +234,6 @@ public class BuscarLibro extends javax.swing.JDialog {
            dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed
 
-    private void btnBuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarMouseClicked
-         try {
-        String input = txtID1.getText();
-        if (input.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Ingrese un ID", "Error", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        Long idBuscado = Long.parseLong(input);
-
-        Libro libroEncontrado = biblioteca.buscarLibro(idBuscado);
-        if (libroEncontrado != null) {
-            txtResultado.setText(libroEncontrado.getTitulo());
-        } else {
-            JOptionPane.showMessageDialog(this, "Libro no encontrado");
-        }
-    } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(this, "Ingrese un ID correcto", "Error", JOptionPane.ERROR_MESSAGE);}
-    
-    }//GEN-LAST:event_btnBuscarMouseClicked
-
     private void txtResultadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtResultadoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtResultadoActionPerformed
@@ -254,10 +242,40 @@ public class BuscarLibro extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtID1ActionPerformed
 
+    private void searchButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchButtonMousePressed
+   try {
+    // Se obtiene el texto ingresado en el campo de texto txtID1.
+    String input = txtID1.getText();
+
+    // Se verifica si el usuario ingresó un valor o dejó el campo vacío.
+    if (input.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Ingrese un ID", "Error", JOptionPane.WARNING_MESSAGE);
+        return; // Se detiene la ejecución si el campo está vacío.
+    }
+
+    // Se convierte el ID ingresado a un número entero.
+    Long idBuscado = Long.parseLong(input);
+
+    // Se busca el libro en la biblioteca con el ID ingresado.
+    Libro libroEncontrado = biblioteca.buscarLibro(idBuscado);
+
+    // Si el libro se encuentra, se muestra su título en el campo txtResultado.
+    if (libroEncontrado != null) {
+        txtResultado.setText(libroEncontrado.getTitulo());
+    } else {
+        // Si no se encuentra el libro, se muestra un mensaje de advertencia.
+        JOptionPane.showMessageDialog(this, "Libro no encontrado");
+    }
+} catch (NumberFormatException e) {
+    // Si el usuario ingresa un valor no numérico en el campo ID, se muestra un mensaje de error.
+    JOptionPane.showMessageDialog(this, "Ingrese un ID correcto", "Error", JOptionPane.ERROR_MESSAGE);
+}
+
+    }//GEN-LAST:event_searchButtonMousePressed
+
    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnRegresar;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel6;
@@ -266,6 +284,8 @@ public class BuscarLibro extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel searchButton;
     private java.awt.TextField txtID1;
     private java.awt.TextField txtResultado;

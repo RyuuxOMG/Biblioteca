@@ -7,21 +7,34 @@ import javax.swing.table.DefaultTableModel;
 import autonoma.Biblioteca.models.*;
 
 
+// La clase actualizarLibro extiende JDialog, lo que significa que es una ventana emergente (diálogo) en la aplicación.
 public class actualizarLibro extends javax.swing.JDialog {
-     private PaginaP PaginaP;
+
+    // Se declara una variable para almacenar la referencia a la ventana principal (PaginaP).
+    private PaginaP PaginaP;
 
     /**
-     * Creates new form actualizarLibro
+     * Constructor de la clase actualizarLibro.
+     * Recibe una referencia a la ventana principal (PaginaP).
      */
     public actualizarLibro(PaginaP PaginaP) {
+        // Se llama al constructor de JDialog y se establece que este diálogo es modal (bloquea la ventana principal hasta que se cierre).
         super(PaginaP, true);
+
+        // Se guarda la referencia de la ventana principal.
         this.PaginaP = PaginaP;
+
+        // Se inicializan los componentes de la interfaz gráfica.
         initComponents();
-            this.setLocationRelativeTo(null);
-        try{
+
+        // Hace que la ventana aparezca en el centro de la pantalla.
+        this.setLocationRelativeTo(null);
+
+        try {
+            // Intenta establecer un ícono para la ventana usando una imagen en la ruta especificada.
             this.setIconImage(new ImageIcon(getClass().getResource("/autonoma/BibliotecaPOO/images/Biblioteca.png")).getImage());
-        }catch(Exception e){
-            
+        } catch (Exception e) {
+            // Si ocurre un error al cargar la imagen, el programa sigue sin mostrar error.
         }
     }
 
@@ -219,54 +232,69 @@ public class actualizarLibro extends javax.swing.JDialog {
 
     private void btnACTUALIZARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnACTUALIZARActionPerformed
 try {
-    
+    // Se obtienen los valores de los campos de texto y se eliminan los espacios en blanco al inicio y al final.
     String IdStr = txtID.getText().trim();
     String IdNuevoStr = txtIDnuevo.getText().trim();
     String TituloN = txtTituloN.getText().trim();
 
+    // Se verifica si el usuario ingresó un ID para buscar el libro.
     if (IdStr.isEmpty()) {
         JOptionPane.showMessageDialog(this, "Ingrese el ID del libro que quiere actualizar", "Error", JOptionPane.ERROR_MESSAGE);
         return;
     }
 
+    // Se convierte el ID ingresado a un número entero.
     Long idBuscado = Long.parseLong(IdStr);
+
+    // Se obtiene el modelo de la tabla de libros.
     DefaultTableModel modelo = (DefaultTableModel) PaginaP.getTablaLibros().getModel();
+    
+    // Variable para saber si se encontró el libro.
     boolean encontrado = false;
 
+    // Se recorre la tabla en busca del libro con el ID ingresado.
     for (int i = 0; i < modelo.getRowCount(); i++) {
-        Long idTabla = (Long) modelo.getValueAt(i, 0);
-        if (idTabla.equals(idBuscado)) {
-            Libro libro = PaginaP.getBiblioteca().buscarLibro(idBuscado);
-            if (libro != null) {
-               
-                if (!IdNuevoStr.isEmpty()) {
-                int nuevoId = Integer.parseInt(IdNuevoStr); 
-                modelo.setValueAt(nuevoId, i, 0);
-                libro.setId(nuevoId); 
-}
+        Long idTabla = (Long) modelo.getValueAt(i, 0); // Se obtiene el ID de la tabla.
+        
+        if (idTabla.equals(idBuscado)) { // Si el ID coincide, se procede a actualizarlo.
+            Libro libro = PaginaP.getBiblioteca().buscarLibro(idBuscado); // Se busca el libro en la biblioteca.
 
-                // Si el usuario ingresó un nuevo título, actualizarlo
+            if (libro != null) {
+                // Si el usuario ingresó un nuevo ID, se actualiza en la tabla y en el objeto libro.
+                if (!IdNuevoStr.isEmpty()) {
+                    int nuevoId = Integer.parseInt(IdNuevoStr);
+                    modelo.setValueAt(nuevoId, i, 0);
+                    libro.setId(nuevoId);
+                }
+
+                // Si el usuario ingresó un nuevo título, se actualiza en la tabla y en el objeto libro.
                 if (!TituloN.isEmpty()) {
                     modelo.setValueAt(TituloN, i, 1);
                     libro.setTitulo(TituloN);
                 }
-                encontrado = true;
-                break;
+
+                encontrado = true; // Se marca como encontrado y actualizado.
+                break; // Se detiene la búsqueda.
             }
         }
     }
 
+    // Si el libro fue encontrado y actualizado, se muestra un mensaje de éxito y se cierra la ventana.
     if (encontrado) {
         JOptionPane.showMessageDialog(this, "Libro actualizado correctamente");
         this.dispose();
-    } else {
+    } else { // Si no se encontró el libro, se muestra un mensaje de error.
         JOptionPane.showMessageDialog(this, "Libro no encontrado", "Error", JOptionPane.ERROR_MESSAGE);
     }
+
 } catch (NumberFormatException e) {
+    // Si el usuario ingresó un ID inválido (no es un número), se muestra un mensaje de error.
     JOptionPane.showMessageDialog(this, "Ingrese un ID válido", "Error", JOptionPane.ERROR_MESSAGE);
 } catch (Exception e) {
+    // Si ocurre cualquier otro error inesperado, se muestra un mensaje con el error.
     JOptionPane.showMessageDialog(this, "Uy, un error inesperado: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 }
+
 
     }//GEN-LAST:event_btnACTUALIZARActionPerformed
 
